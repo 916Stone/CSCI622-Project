@@ -32,9 +32,24 @@ print("ADLS connection established.")
 # Download data using wget
 print("Downloading IoT-23 dataset from CTU...")
 url = "https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Dataset/IndividualScenarios/CTU-IoT-Malware-Capture-44-1/bro/conn.log.labeled"
-directory = "src/ingestion/data/iot-23"
+directory = "data/iot-23/"
 filename = wget.download(url, out=directory)
 print("Download complete.")
+
+# Transform to dataframe before loading to ADLS
+df = pd.read_csv("data/iot-23/conn.log.labeled", comment="#", sep='\t| ', engine='python')
+
+print("Transforming IoT-23 dataset to dataframe...")
+df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+
+# Add column names ts	uid	id.orig_h	id.orig_p	id.resp_h	id.resp_p	proto	service	duration	orig_bytes	resp_bytes	conn_state	local_orig	local_resp	missed_bytes	history	orig_pkts	orig_ip_bytes	resp_pkts	resp_ip_bytes	tunnel_parents   label   detailed-label
+df.columns = ['ts', 'uid', 'id.orig_h', 'id.orig_p', 'id.resp_h', 'id.resp_p', 'proto', 
+              'service', 'duration', 'orig_bytes', 'resp_bytes', 'conn_state', 
+              'local_orig', 'local_resp', 'missed_bytes', 'history', 'orig_pkts', 
+              'orig_ip_bytes', 'resp_pkts', 'resp_ip_bytes', 'tunnel_parents', 'label', 'detailed-label']
+
+# Save to csv on local
+df.to_csv("data/iot-23/conn_log.csv", index=False)
 
 # Load data into ADLS
 print("Uploading IoT-23 dataset to ADLS...")
@@ -43,9 +58,9 @@ try:
 
     directory_client = file_system_client.get_directory_client("upload-data")
         
-    file_client = directory_client.create_file("conn.log.labeled")
+    file_client = directory_client.create_file("conn_log.csv")
 
-    population_file = open("src/ingestion/data/iot-23/conn.log.labeled",'r')
+    population_file = open("data/iot-23/conn_log.csv",'r')
 
     file_contents = population_file.read()
 
@@ -55,4 +70,3 @@ try:
 
 except Exception as e:
     print(e)
-
