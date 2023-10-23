@@ -6,7 +6,7 @@ The topic for this data engineering project is IoT Malware Detection. IoT stands
 ## Ingestion
 ### Data Source
 
-There are two dataset used in this project. The first one is the Malware on IoT dataset which belongs to Aposemat project funded by Avast. The data is provided by a sister project with this one called Malware Capture Facility Project. This project is responsible for making the long-term malware captures. They continually obtained malware and normal data to feed the Stratosphere IPS. The other dataset is called Edge-IIoTset which is a new comprehensive realistic cyber security dataset of IoT and IIoT applications on Kaggel. More details about the datasets can be found in [Summary description.](SupplementaryInfo/IngestionAnalysis/Summary Description.md)
+There are two dataset used in this project. The first one is the Malware on IoT dataset which belongs to Aposemat project funded by Avast. The data is provided by a sister project with this one called Malware Capture Facility Project. This project is responsible for making the long-term malware captures. They continually obtained malware and normal data to feed the Stratosphere IPS. The other dataset is called Edge-IIoTset which is a new comprehensive realistic cyber security dataset of IoT and IIoT applications on Kaggel. More details about the datasets can be found in [Summary description.](SupplementaryInfo/IngestionAnalysis)
 
 ### Ingestion Method
 
