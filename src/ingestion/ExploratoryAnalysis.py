@@ -6,7 +6,7 @@
 
 # COMMAND ----------
 
-# connect 
+# connect to storage account
 storage_end_point = "622project.dfs.core.windows.net" 
 my_scope = "CSCI622Scope"
 my_key = "project-key"
