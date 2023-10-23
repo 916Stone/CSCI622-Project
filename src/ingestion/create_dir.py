@@ -1,3 +1,5 @@
+# This script creates a container and directory
+
 # %%
 from azure.storage.filedatalake import DataLakeServiceClient
 
