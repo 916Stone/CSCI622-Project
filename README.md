@@ -10,4 +10,8 @@ There are two dataset used in this project. The first one is the Malware on IoT 
 
 ### Ingestion Method
 
+The datasets are ingested to Azure storage account usnig Python script. Both dataset are being processed so that can be directly read as a dataframe. The Edge-IIoTset dataset is on Kaggel, so the Kaggel API can be used to download this dataset. The Malware on IoT dataset does not provide an API but is can be downloaded using wget package in Python directly from the hosted website, the dataset can also be refreshed by running teh Python script.
+
 ### Data Storage
+
+Both dataset are ingested and stored on the Azure storage account that has been created for this project. And more processed files will also be stored in this container under the same storage account.
