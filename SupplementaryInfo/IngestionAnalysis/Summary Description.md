@@ -5,7 +5,7 @@ Edge IIoT stands for Edge Industrial Internet of Things, refers to the deploymen
 - There are 2219201 rows and 63 columns in the dataset including the target column.
 - Each row represents 1 network traffic, and 1615643 rows are normal traffics while 603558 are attacks.
 <div align="center">
-[  ![Edge-IIoTset Count Plot](iiot.png)](https://github.com/dfroslie-ndsu-org/f23-project-916Stone/blob/main/SupplementaryInfo/IngestionAnalysis/iiot.png)
+    <img src="https://github.com/dfroslie-ndsu-org/f23-project-916Stone/blob/main/SupplementaryInfo/IngestionAnalysis/iiot.png">
 </div>
 
 - ## Malware on IoT Dataset
@@ -17,5 +17,5 @@ Same as the IoT-23 dataset, this dataset also belongs to Aposemat Project hosted
 - Unlike the Edge-IIoTset dataset which has traffics as rows, in this dataset each row is a NetFlow which means is a feature that was introduced on Cisco routers around 1996 that provides the ability to collect IP network traffic as it enters or exits an interface. In general, traffics that share 7 attributs, Ingress interface (SNMP ifIndex), Source IP address, Destination IP address, IP protocol number, Source port for UDP or TCP (0 for other protocols), Destination port for UDP or TCP or type & code for ICMP (0 for other protocols), and IP Type of Service will be conbined into a  unidirectional sequence of packets which is a flow.
 - There are 236 rows and 23 columns including 2 label columns. One lable column is similar to the other dataset which is Benign and Malicisou, the other label column is the specific type of attacks which will probably be dropped for this project.
 <div align="center">
-[  ![Edge-IIoTset Count Plot](iot23.png)](https://github.com/dfroslie-ndsu-org/f23-project-916Stone/blob/main/SupplementaryInfo/IngestionAnalysis/iiot.png)https://github.com/dfroslie-ndsu-org/f23-project-916Stone/blob/main/SupplementaryInfo/IngestionAnalysis/iiot.png
+  <img src="https://github.com/dfroslie-ndsu-org/f23-project-916Stone/blob/main/SupplementaryInfo/IngestionAnalysis/iot23.png">
 </div>
