@@ -8,7 +8,7 @@ Edge IIoT stands for Edge Industrial Internet of Things, refers to the deploymen
     <img src="https://github.com/dfroslie-ndsu-org/f23-project-916Stone/blob/main/SupplementaryInfo/IngestionAnalysis/iiot.png">
 </div>
 
-- ## Malware on IoT Dataset
+## Malware on IoT Dataset
 Same as the IoT-23 dataset, this dataset also belongs to Aposemat Project hosted by Avast. One of the main goals of this project is to obtain and use real IoT malware to infect the devices in order to create up to date datasets for research purposes. 
 - The dataset is hosted on https://www.stratosphereips.org/datasets-iot.
 - This dataset does not have an API but can be downloaded using wget in Python through https://mcfp.felk.cvut.cz/publicDatasets/IoTDatasets/CTU-IoT-Malware-Capture-49-1/
