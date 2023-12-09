@@ -31,7 +31,7 @@ print("ADLS connection established.")
 # This labeled data can be treated as csv file, it does need a few more tweaks before transforming it into a dataframe, the processing will be in EDA.
 # Download data using wget
 print("Downloading IoT-23 dataset from CTU...")
-url = "https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Dataset/IndividualScenarios/CTU-IoT-Malware-Capture-44-1/bro/conn.log.labeled"
+url = "https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Dataset/IndividualScenarios/CTU-IoT-Malware-Capture-35-1/bro/conn.log.labeled"
 directory = "data/iot-23/"
 filename = wget.download(url, out=directory)
 print("Download complete.")

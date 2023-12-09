@@ -33,7 +33,7 @@ api = KaggleApi()
 api.authenticate()
 
 # Download data from Kaggle
-print("Downloading IoT-23 dataset from Kaggle...")
+print("Downloading Edge-IIoT dataset from Kaggle...")
 api.dataset_list_files('mohamedamineferrag/edgeiiotset-cyber-security-dataset-of-iot-iiot')
 api.dataset_download_files('mohamedamineferrag/edgeiiotset-cyber-security-dataset-of-iot-iiot', 'src/ingestion/data/iiot', unzip=True)
 print("Download complete.")
