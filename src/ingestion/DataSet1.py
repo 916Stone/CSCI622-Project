@@ -5,7 +5,8 @@ print("DataSet1 ingestion")
 # Import libraries
 from azure.storage.filedatalake import DataLakeServiceClient
 from kaggle.api.kaggle_api_extended import KaggleApi
-import pandas as pd
+import os
+import shutil
 
 # Connect to ADLS
 def initialize_storage_account(storage_account_name, storage_account_key):
@@ -33,9 +34,16 @@ api = KaggleApi()
 api.authenticate()
 
 # Download data from Kaggle
+dir = "src/data/iiot/"
+
+# Remove the folder and recreate it
+if os.path.exists('src/data/'):
+    shutil.rmtree('src/data/')
+os.makedirs(dir)
+
 print("Downloading Edge-IIoT dataset from Kaggle...")
 api.dataset_list_files('mohamedamineferrag/edgeiiotset-cyber-security-dataset-of-iot-iiot')
-api.dataset_download_files('mohamedamineferrag/edgeiiotset-cyber-security-dataset-of-iot-iiot', 'src/ingestion/data/iiot', unzip=True)
+api.dataset_download_files('mohamedamineferrag/edgeiiotset-cyber-security-dataset-of-iot-iiot', dir, unzip=True)
 print("Download complete.")
 
 # Load data into ADLS
@@ -49,7 +57,7 @@ try:
     file_client = directory_client.create_file("iiot.csv")
 
     # Use contect manager to avoid permission error
-    with open("src/ingestion/data/iiot/Edge-IIoTset dataset/Selected dataset for ML and DL/DNN-EdgeIIoT-dataset.csv", 'r') as population_file:
+    with open("src/data/iiot/Edge-IIoTset dataset/Selected dataset for ML and DL/DNN-EdgeIIoT-dataset.csv", 'r') as population_file:
         file_contents = population_file.read()
         file_client.upload_data(file_contents, overwrite=True)
 
@@ -61,5 +69,5 @@ except Exception as e:
 # Remove downloaded data
 print("Removing downloaded data...")
 import shutil
-shutil.rmtree('src/ingestion/data/iiot')
+shutil.rmtree('src/data/')
 print("Downloaded data removed.")

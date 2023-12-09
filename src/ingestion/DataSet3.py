@@ -40,7 +40,7 @@ os.makedirs(dir)
 # This labeled data can be treated as csv file, it does need a few more tweaks before transforming it into a dataframe, the processing will be in EDA.
 # Download data using wget
 print("Downloading IoT-23 dataset from CTU...")
-url = "https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Dataset/IndividualScenarios/CTU-IoT-Malware-Capture-36-1/bro/conn.log.labeled"
+url = "https://mcfp.felk.cvut.cz/publicDatasets/IoT-23-Dataset/IndividualScenarios/CTU-IoT-Malware-Capture-7-1/bro/conn.log.labeled"
 
 filename = wget.download(url, out=dir)
 print("Download complete.")
@@ -69,7 +69,7 @@ try:
 
     directory_client = file_system_client.get_directory_client("upload-data")
         
-    file_client = directory_client.create_file("mirai.csv")
+    file_client = directory_client.create_file("okiru.csv")
 
     # Use contect manager to avoid permission error
     with open("src/data/iot-23/conn_log.csv", 'r') as population_file:
