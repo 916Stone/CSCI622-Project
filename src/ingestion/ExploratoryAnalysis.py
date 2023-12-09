@@ -74,46 +74,82 @@ plt.show()
 
 # COMMAND ----------
 
-# Read another data
-iot23_df = spark.read.csv(uri+'upload-data/conn_log.csv', header="True")
+# Read mirai dataset
+mirai_df = spark.read.csv(uri+'upload-data/mirai.csv', header="True")
  
-display(iot23_df)
+display(mirai_df)
 
 # COMMAND ----------
 
 # Basic info of this df
-print(f"Number of rows: {iot23_df.count()}")
-print(f"Number of columns: {len(iot23_df.columns)}")
-
-print(iot23_df.printSchema())
+print(mirai_df.printSchema())
 
 # COMMAND ----------
 
 # The last column is the label for the type of malware which will probably not be used
-iot23_df.select("detailed-label").distinct().show()
+mirai_df.select("detailed-label").distinct().show()
 
 # COMMAND ----------
 
 # Check the target values again
-iot23_count = iot23_df.groupBy("label").agg(count("label").alias("count")).orderBy("count", ascending=False)
+mirai_count = mirai_df.groupBy("label").agg(count("label").alias("count")).orderBy("count", ascending=False)
 
-iot23_count.show()
+mirai_count.show()
 
 # COMMAND ----------
 
 # Convert Benign to 0 and other types to 1 and plot the count  
-iot23_df = iot23_df.withColumn("label", when(col("label") == "Benign", 0).otherwise(1))
+mirai_df = mirai_df.withColumn("label", when(col("label") == "Benign", 0).otherwise(1))
 
-iot23_count = iot23_df.groupBy("label").agg(count("label").alias("count")).orderBy("count", ascending=False)
+mirai_count = mirai_df.groupBy("label").agg(count("label").alias("count")).orderBy("count", ascending=False)
 
-iot23_count.show()
+mirai_count.show()
 
 # COMMAND ----------
 
 # Count plot 
 # Extracting values and counts
-values = [row['label'] for row in iot23_count.collect()]
-counts = [row['count'] for row in iot23_count.collect()]
+values = [row['label'] for row in mirai_count.collect()]
+counts = [row['count'] for row in mirai_count.collect()]
+
+# Plotting
+colors = plt.cm.viridis(np.linspace(0, 1, len(values)))
+plt.bar(values, counts, color=colors)
+plt.xlabel('Attack_Type')
+plt.ylabel('Count')
+plt.title('Attack_Type Counts')
+plt.xticks(values)
+plt.show()
+
+# COMMAND ----------
+
+# Read okiru dataset
+okiru_df = spark.read.csv(uri+'upload-data/okiru.csv', header="True")
+ 
+display(okiru_df)
+
+# COMMAND ----------
+
+# Check the target values again
+okiru_count = okiru_df.groupBy("label").agg(count("label").alias("count")).orderBy("count", ascending=False)
+
+okiru_count.show()
+
+# COMMAND ----------
+
+# Convert Benign to 0 and other types to 1 and plot the count  
+okiru_df = okiru_df.withColumn("label", when(col("label") == "Benign", 0).otherwise(1))
+
+okiru_count = okiru_df.groupBy("label").agg(count("label").alias("count")).orderBy("count", ascending=False)
+
+okiru_count.show()
+
+# COMMAND ----------
+
+# Count plot 
+# Extracting values and counts
+values = [row['label'] for row in okiru_count.collect()]
+counts = [row['count'] for row in okiru_count.collect()]
 
 # Plotting
 colors = plt.cm.viridis(np.linspace(0, 1, len(values)))
