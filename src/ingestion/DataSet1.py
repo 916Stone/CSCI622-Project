@@ -48,13 +48,18 @@ try:
         
     file_client = directory_client.create_file("iiot.csv")
 
-    population_file = open("src/ingestion/data/iiot/Edge-IIoTset dataset/Selected dataset for ML and DL/DNN-EdgeIIoT-dataset.csv",'r')
-
-    file_contents = population_file.read()
-
-    file_client.upload_data(file_contents, overwrite=True)
+    # Use contect manager to avoid permission error
+    with open("src/ingestion/data/iiot/Edge-IIoTset dataset/Selected dataset for ML and DL/DNN-EdgeIIoT-dataset.csv", 'r') as population_file:
+        file_contents = population_file.read()
+        file_client.upload_data(file_contents, overwrite=True)
 
     print("IIoT dataset uploaded to ADLS.")
 
 except Exception as e:
     print(e)
+
+# Remove downloaded data
+print("Removing downloaded data...")
+import shutil
+shutil.rmtree('src/ingestion/data/iiot')
+print("Downloaded data removed.")

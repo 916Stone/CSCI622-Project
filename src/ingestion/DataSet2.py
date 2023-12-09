@@ -60,13 +60,19 @@ try:
         
     file_client = directory_client.create_file("conn_log.csv")
 
-    population_file = open("data/iot-23/conn_log.csv",'r')
-
-    file_contents = population_file.read()
-
-    file_client.upload_data(file_contents, overwrite=True)
+    # Use contect manager to avoid permission error
+    with open("data/iot-23/conn_log.csv", 'r') as population_file:
+        file_contents = population_file.read()
+        file_client.upload_data(file_contents, overwrite=True)
 
     print("IoT-23 dataset uploaded to ADLS.")
 
 except Exception as e:
     print(e)
+
+# Remove downloaded data
+print("Removing downloaded data...")
+import shutil
+shutil.rmtree("src/ingestion/data/")
+print("Downloaded data removed.")
+
