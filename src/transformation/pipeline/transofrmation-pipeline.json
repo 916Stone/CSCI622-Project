@@ -1,0 +1,109 @@
+{
+	"name": "transofrmation-pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Merging",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/tongxin.shi@ndus.edu/f23-project-916Stone/src/transformation/MergeDatasets"
+				},
+				"linkedServiceName": {
+					"referenceName": "CSCI622Databricks",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Cleaning",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Merging",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/tongxin.shi@ndus.edu/f23-project-916Stone/src/transformation/DataCleaning"
+				},
+				"linkedServiceName": {
+					"referenceName": "CSCI622Databricks",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Feature engineering",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Cleaning",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/tongxin.shi@ndus.edu/f23-project-916Stone/src/transformation/FeatureEngineering"
+				},
+				"linkedServiceName": {
+					"referenceName": "CSCI622Databricks",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Encoding",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Feature engineering",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/tongxin.shi@ndus.edu/f23-project-916Stone/src/transformation/Encoding"
+				},
+				"linkedServiceName": {
+					"referenceName": "CSCI622Databricks",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": []
+	}
+}
