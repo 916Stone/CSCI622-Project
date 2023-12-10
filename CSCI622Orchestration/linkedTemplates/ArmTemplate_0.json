@@ -1,0 +1,176 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "CSCI622Orchestration"
+		},
+		"CSCI622Databricks_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'CSCI622Databricks'"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://assign1key.vault.azure.net/"
+		},
+		"CSCI622Databricks_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "1208-190740-99m0tmn1"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureKeyVault1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CSCI622Databricks')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDatabricks",
+				"typeProperties": {
+					"domain": "https://adb-4472353705888257.17.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('CSCI622Databricks_accessToken')]"
+					},
+					"existingClusterId": "[parameters('CSCI622Databricks_properties_typeProperties_existingClusterId')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/transofrmation-pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Merging",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Repos/tongxin.shi@ndus.edu/f23-project-916Stone/src/transformation/MergeDatasets"
+						},
+						"linkedServiceName": {
+							"referenceName": "CSCI622Databricks",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Cleaning",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "Merging",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Repos/tongxin.shi@ndus.edu/f23-project-916Stone/src/transformation/DataCleaning"
+						},
+						"linkedServiceName": {
+							"referenceName": "CSCI622Databricks",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Feature engineering",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "Cleaning",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Repos/tongxin.shi@ndus.edu/f23-project-916Stone/src/transformation/FeatureEngineering"
+						},
+						"linkedServiceName": {
+							"referenceName": "CSCI622Databricks",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Encoding",
+						"type": "DatabricksNotebook",
+						"dependsOn": [
+							{
+								"activity": "Feature engineering",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Repos/tongxin.shi@ndus.edu/f23-project-916Stone/src/transformation/Encoding"
+						},
+						"linkedServiceName": {
+							"referenceName": "CSCI622Databricks",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/CSCI622Databricks')]"
+			]
+		}
+	]
+}
