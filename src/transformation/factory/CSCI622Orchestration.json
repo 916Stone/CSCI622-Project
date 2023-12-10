@@ -1,0 +1,9 @@
+{
+	"name": "CSCI622Orchestration",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "cdf870a4-b196-419f-98c2-5b230f2b94c9",
+		"tenantId": "ec37a091-b9a6-47e5-98d0-903d4a419203"
+	}
+}
